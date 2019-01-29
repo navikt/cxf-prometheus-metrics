@@ -1,0 +1,20 @@
+language: java
+jdk:
+- openjdk11
+script:
+- "./gradlew -PprojectVersion=$(git rev-parse --short HEAD) build"
+- |
+  set -e
+  if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then
+   ./gradlew -PprojectVersion=$(git rev-parse --short HEAD) publish --info closeAndReleaseRepository
+  fi
+before_install:
+- openssl aes-256-cbc -K $encrypted_d562d8e3c398_key -iv $encrypted_d562d8e3c398_iv
+  -in travis/codesigning.asc.enc -out travis/codesigning.asc -d
+- gpg --fast-import travis/codesigning.asc
+env:
+  global:
+  - OSSRH_JIRA_USERNAME=navikt
+  - secure: Du9T//aNI8MOU0spCYM1h/nkO6f3SXOZPGU51GhFnmgEVpOLVblIYaQ+rd51aUEz/hISvAcL6g+RR4fYQ1McVi9WkTDWRBv1k30oJwUTx1QOKPeznL1LAPBSRmoZOXevGuNMiKLH1za0u3jXvOf6+ZqmChqwerS0NNlUDcbf3vpGIYjP/dA2f8FGUegCzYY9/1xaur1zcT3KEiJfFEzBs3uPX7bhJy4jGLMO/bOPba7kNS+ksYQzXz0+OdqGX2c0bfItDx48vcn7tUBBE/Gkc5FSxXl2Mkhq2AHqLPVUOt4ydUHHYZPGKPZsB9uOMdd1dOrjOCSX6cPvexGJ/P+JRHMT/IoqgKN/ziOzlYmUbKu3gMagrKn6HerOt1cq31ZPPaTkECwNhLC0oszcTktsIREhLXsUsbW+w/SmIVqM75LWKqmkve/8dQIo+b4HdAeUPeSO0E8fgT2wUrKZGsXprw3VizNUlIQrhmw3WDy/6gaPZV/7BWYBqzm59hdN1Cvqq1kvqUH8z5Bz9DMhwBXSqD5VRXGg7FBZz+DOWHQf/2vB++bFF+WkZjGEvfqLnquzp/XlEB9Xk3W3GX77z0Z8ho9NiaEWIF8gg/3zdRDI9P/+xTIO5QDOPsRFwcNGAEiP3HBzX+xluTcqsmFSmacO/ODyUZ51MWwHjI5XWWJmuwM=
+  - GPG_KEY_NAME=navikt
+  - secure: xZ4aUHM9NcOJMClM6l26i59cHhZjlFqFKSfcrKikzHcXaJLvuY4hTLDb8Beb6ovsPINksehplMw5+mWMz1B976axULyiBW3aca52Cv7hs+pfZny5N0YZegO5XH3OYc8nRrot3LHaiL9hsnNfQgp0TVdY1KvxSFYt2SiIEEIR7VsGEGO14gfSsosY5UO2DFxtjbT3MAcsrZai/JMwxpXB+i3HYDwmwTnsKeMwcb1kIYpzQk/wSULyTnbW5LWmb0/cXzKAI7VDxvcEKsT9vTv1pVu/Jm9QdNDOto0+MVVnOqghcasIdDEdapf2JaBBfkwGTCxIFG5SFi51wFpYaCk/i4kie4hsvhq5JXbw1sMTNOT4XQe3nUHF1S2DzUnYxDmp7jXo6L0cIWy5S69xETaB59PF1kOK7YDnKQqd3xAacSBJJnkvUo040jk0zk2ZhQqhaoa+rsPwVyYGZKUl5VsANTbSrbSjcASRXkMyRaym8av4hf/IAf8VxS2XnzvGsh1S8DQMu+ksF1Etqga/RNrqziyCQCUUtv6T+MRCJQNw3cKJZMU+ygOfHYV6ZZuigc+4asUBKmzmxZoraQsq5ie6fQzo19p9dAbM3HXq+vtlrujcf1OsXeMrii4UlTTNGliJkF53GxGzlH2Ax/GOR0GcjOoiY+9COgy5R4RQDyUesHo=
