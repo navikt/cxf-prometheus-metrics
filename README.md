@@ -1,4 +1,4 @@
-CXF Prometheus Metrics
+CXF Prometheus Metrics [![Maven Central](https://maven-badges.herokuapp.com/maven-central/no.nav.helse/cxf-prometheus-metrics/badge.svg)](https://maven-badges.herokuapp.com/maven-central/no.nav.helse/cxf-prometheus-metrics)
 ======================
 
 En `WebServiceFeature` som tar tiden på utgående kall, og teller antall vellykkede og feilende kall. Det skilles mellom faults
