@@ -28,6 +28,7 @@ webservice_calls_latency_sum
 ```
 
 Se https://prometheus.io/docs/practices/histograms/ for mer informasjon.
+Det er verd å merke seg at her brukes Prometheus direkte. Om man bruker Micrometer (“slf4j for metrikker”) må man passe på at _CollectorRegistry_ i Prometheus registreres inn i Micrometers _MeterRegistry_. For Spring Boot holder det å eksponere Prometheus sitt default registry som en _@Bean_ så sørger Boot for selve registreringen. For andre rammeverk må dette gjøres manuelt
 
 # Henvendelser
 
